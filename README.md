@@ -21,7 +21,7 @@
 
 1.definite the project name:litmall
 
-![](pic/image-20200626175035557.png)
+![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gg5xr66hbsj316e0u07a0.jpg)
 
 |      | Subject                     | Action By  | Deadline |
 | ---- | --------------------------- | ---------- | -------- |
