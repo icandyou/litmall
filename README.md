@@ -5,7 +5,7 @@
 
 [Reference(CourseLink)](https://l.xmu.edu.cn/course/view.php?id=892)
 
-![image-20200626193518149](pic/image-20200626193518149.png)
+![image-20200626193518149](https://tva1.sinaimg.cn/large/007S8ZIlgy1gg5xowk1okj310i0u0h15.jpg)
 
 ## 6.26First Meeting
 
