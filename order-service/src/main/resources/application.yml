@@ -1,0 +1,56 @@
+spring:
+  profiles:
+    active: lhb
+  http:
+    converters:
+      preferred-json-mapper: gson
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+
+
+
+
+mybatis:
+  type-aliases-package: ooad33.order.domain
+  mapper-locations: classpath:ooad33.order.mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    org.springframework.web: infoOrderMapper.xml
+    root: error
+
+    ooad33.order.controller: debug
+    ooad33.order.service: debug
+    ooad33.order.dao: debug
+    ooad33.order.mapper: debug
+    ooad33.order.domain: debug
+
+
+
+feign:
+  hystrix:
+    enabled: false
+  client:
+    config:
+      share:
+        connectTimeout: 120000
+        readTimeout: 120000
+  compression:
+    request:
+      enabled: true
+      mime-types: textml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+#
+#…Ë÷√»€∂œ «Œ™6√Î
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 60000
+  eureka:
+    enabled: true
+
+
