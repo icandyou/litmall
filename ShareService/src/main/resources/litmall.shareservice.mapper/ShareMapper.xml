@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="litmall.shareservice.mapper.ShareMapper">
+
+
+    <select id="getSameBeShareItem" resultType="beSharedItem">
+        select id, goods_id, sharer_id, status, birthtime, be_shared_user_id, gmt_create, gmt_modified, is_deleted
+        from oomall_be_shared_item
+        where goods_id=#{goodsId} AND be_shared_user_id=#{beSharedId} AND status=0 AND is_deleted=0 order by birthtime
+    </select>
+    <select id="getShareRuleByGoods" parameterType="Integer" resultType="ShareRulePo">
+        select
+            id,
+            share_level_strategy,
+            goods_id,
+            gmt_modified,
+            is_deleted as beDeleted,
+            gmt_create
+            from oomall_share_rule
+        where is_deleted=0 AND goods_id=#{id}
+    </select>
+
+    <select id="getShareRuleById" parameterType="Integer" resultType="ShareRulePo">
+        select
+            id,
+            share_level_strategy,
+            goods_id,
+            gmt_modified,
+            is_deleted as beDeleted,
+            gmt_create
+        from oomall_share_rule
+        where is_deleted=0 AND id=#{id}
+    </select>
+
+    <insert id="createShareRule" parameterType="shareRulePo" useGeneratedKeys="true" keyProperty="id">
+        insert into oomall_share_rule(goods_id,share_level_strategy,is_deleted)
+        values (#{goodsId},#{shareLevelStrategy},0)
+    </insert>
+
+    <update id="deShareRule" parameterType="Integer" >
+        update oomall_share_rule set is_deleted=1 where id=#{id}
+    </update>
+
+    <update id="alterShareRule" parameterType="ShareRulePo">
+        update oomall_share_rule
+        <trim prefix="set" suffixOverrides=",">
+            <if test="share_level_strategy!=null">share_level_strategy=#{shareLevelStrategy},</if>
+            <if test="goods_id!=null">goods_id=#{goodsId},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <insert id="createBeShareItem" parameterType="beSharedItem" keyProperty="id" useGeneratedKeys="true">
+        insert into oomall_be_shared_item(goods_id, sharer_id,be_shared_user_id, status, is_deleted)
+        values (#{goodsId},#{sharerId},#{beSharedUserId},0,0)
+    </insert>
+
+    <select id="checkBeSharedItem" resultType="beSharedItem">
+        select id, goods_id, sharer_id, status, birthtime, be_shared_user_id, gmt_create, gmt_modified, is_deleted
+        from oomall_be_shared_item where be_shared_user_id=#{beSharedId} AND goods_id=#{goodsId} AND is_deleted=0 AND status=0
+    </select>
+
+    <select id="isExistSameBeSharedId" resultType="beSharedItem">
+        select id, goods_id, sharer_id, status, birthtime, be_shared_user_id, gmt_create, gmt_modified, is_deleted
+        from oomall_be_shared_item where be_shared_user_id=#{beSharedUserId} AND goods_id=#{goodsId} AND sharer_id=#{sharerId} AND is_deleted=0 AND status=0
+    </select>
+
+    <update id="alterStatues" parameterType="Integer">
+        update oomall_be_shared_item set status=1 where id=#{id}
+    </update>
+
+    <select id="checkSharedItem" resultType="shareItem">
+        select id, user_id, goods_id, success_num, gmt_create, gmt_modified, is_deleted
+        from oomall_share_item where user_id=#{sharerId} AND goods_id=#{goodsId}
+    </select>
+
+    <insert id="createShareItem" parameterType="shareItem">
+        insert into oomall_share_item(user_id, goods_id,success_num,is_deleted)
+        values (#{userId},#{goodsId},#{successNum},0)
+    </insert>
+
+    <update id="addShareSuccess" parameterType="ShareItem">
+        update oomall_share_item set success_num=success_num+#{successNum}
+        where user_id=#{userId} AND goods_id=#{goodsId}
+    </update>
+
+</mapper>
