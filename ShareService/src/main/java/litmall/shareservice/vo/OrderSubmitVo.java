@@ -3,7 +3,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import litmall.shareservice.domain.Address;
+import domain.Address;
 
 import java.util.List;
 

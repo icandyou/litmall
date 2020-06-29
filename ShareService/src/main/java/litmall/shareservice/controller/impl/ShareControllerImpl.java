@@ -1,6 +1,11 @@
 package litmall.shareservice.controller.impl;
 
 
+import domain.Log;
+import litmall.shareservice.domain.Order;
+import litmall.shareservice.domain.ShareRulePo;
+import litmall.shareservice.domain.BeSharedItem;
+import litmall.shareservice.domain.ShareRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import litmall.shareservice.controller.LogController;
 import litmall.shareservice.controller.ShareController;
-import litmall.shareservice.domain.*;
 import litmall.shareservice.service.ShareService;
 import litmall.shareservice.util.GetUser;
 import litmall.shareservice.util.ResponseUtil;

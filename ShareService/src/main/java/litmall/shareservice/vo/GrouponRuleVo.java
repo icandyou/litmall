@@ -1,8 +1,5 @@
 package litmall.shareservice.vo;
 
-import litmall.shareservice.domain.GoodsPo;
-import litmall.shareservice.domain.GrouponRulePo;
-
 /**
  * @author candy
  */

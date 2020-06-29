@@ -1,5 +1,9 @@
 package litmall.shareservice.domain;
 
+import domain.Address;
+import domain.OrderItem;
+import domain.Payment;
+import domain.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

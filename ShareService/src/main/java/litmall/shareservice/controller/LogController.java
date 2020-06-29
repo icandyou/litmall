@@ -1,14 +1,11 @@
 package litmall.shareservice.controller;
 
+import domain.Log;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import litmall.shareservice.domain.Log;
 
-/**
- * @Author lsz
- * @create 2019/12/16 22:36
- */
+
 
 @FeignClient(value = "logsService",url = "url: http://101.132.152.28:3410")
 public interface LogController {
