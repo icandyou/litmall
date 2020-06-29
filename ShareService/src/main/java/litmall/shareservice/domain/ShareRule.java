@@ -147,6 +147,7 @@ public class ShareRule extends ShareRulePo {
             xRebate=price.multiply(discountRate);
             // 向下取整
             rebate=xRebate.setScale(0, BigDecimal.ROUND_DOWN ).intValue();
+            rebate *=(successNum-this.getStrategyList().get(level).lowerBound);
             return rebate;
         }
     }

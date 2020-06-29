@@ -105,7 +105,7 @@ public class ShareDao {
     /**
      * 查看订单中的OrderItem是否满足条件
      * 被分享者在有效时间内下单
-     * 且下单后七天内未退货
+     * 且下单后七天内未退货（已满足）
      * 得到有效BeSharedItem
      * @param order 未退货订单
      */
