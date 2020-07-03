@@ -1,1 +1,97 @@
+spring:
+  profiles:
+    active: dev
+  http:
+    cloud:
+      loadbalancer:
+        retry:
+          enabled: true
 
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+mybatis:
+  #domain对象的包（标准组的）
+  type-aliases-package: xmu.oomall.domain
+  #mapper.xml所在的位置
+  mapper-locations: classpath:xmu.oomall.mapper/*.xml
+  configuration:
+    #自动将SQL中查出来的带下划线的字段，转换为驼峰标志，再去匹配类中的属性
+    map-underscore-to-camel-case: true
+
+logging:
+  #设置日志打印级别
+  level:
+    #Spring框架中的日志级别
+    org.springframework.web: info
+    root: error
+    #自己项目包名下的日志级别
+    xmu.oomall.controller: debug
+    xmu.oomall.service: debug
+    xmu.oomall.dao: debug
+    xmu.oomall.mapper: error
+    xmu.oomall.domain: debug
+    xmu.oomall.util: debug
+    xmu.oomall.filter: debug
+    xmu.oomall.config: debug
+  #使用logback日志，取代默认的common日志
+  file:
+  # TODO 记得修改
+  #    path: C:\Users\liznsalt\log
+  config: classpath:logback-spring.xml
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: mall-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+  tokenHead: Bearer #JWT负载中拿到开头
+
+# 自定义redis键值
+redis:
+  key:
+    user:
+      prefix:
+        authCode: "user:authCode:"
+      expire:
+        authCode: 90 # 验证码超期时间
+    admin:
+      prefix:
+        authCode: "admin:authCode:"
+      expire:
+        authCode: 90 # 验证码超期时间
+
+
+######################################
+
+feign:
+  hystrix:
+    enabled: true
+#  client:
+#    config:
+#      share:
+#        connectTimeout: 120000
+#        readTimeout: 120000
+#  compression:
+#    request:
+#      enabled: true
+#      mime-types: text/html,application/xml,application/json
+#      min-request-size: 2048
+#    response:
+#      enabled: true
+
+ribbon:
+  ConnectTimeout: 20000
+  ReadTimeout: 20000
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
