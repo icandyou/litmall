@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="litmall.userservice.mapper.PrivilegeMapper">
+    <resultMap id="mallPrivilegeMap" type="mallPrivilege">
+        <id column="id" property="id"/>
+        <result column="is_deleted" property="beDeleted" javaType="Boolean" />
+    </resultMap>
+
+    <select id="getAll" resultMap="mallPrivilegeMap">
+        select id, role_id, url, method, gmt_create, gmt_modified, is_deleted
+        from litmall_privilege
+        where is_deleted = 0
+    </select>
+
+    <insert id="addPrivileges" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into litmall_privilege(role_id, url, method, gmt_create, gmt_modified, is_deleted)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+             #{item.roleId},
+             #{item.url},
+             #{item.method},
+             sysdate(),
+             sysdate(),
+             0
+            )
+        </foreach>
+    </insert>
+
+    <select id="getWhiteUrlList" resultMap="mallPrivilegeMap">
+        select id, role_id, url, method, gmt_create, gmt_modified, is_deleted
+        from litmall_privilege
+        where is_deleted = 0 and role_id = 0
+    </select>
+</mapper>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="litmall.userservice.mapper.UserMapper">
+    <resultMap id="mallUserMap" type="mallUser">
+        <id property="id" column="id"/>
+        <result property="beDeleted" column="is_deleted" javaType="Boolean"/>
+    </resultMap>
+
+    <insert id="addUser" parameterType="mallUser" useGeneratedKeys="true" keyProperty="id">
+        insert into litmall_user(password, name, gender, birthday, mobile, nickname, rebate, avatar, last_login_time, last_login_ip, user_level, wx_open_id, session_key, gmt_create, gmt_modified, is_deleted, role_id)
+        values (#{password}, #{name}, #{gender}, #{birthday}, #{mobile}, #{nickname}, #{rebate}, #{avatar}, #{lastLoginTime}, #{lastLoginIp}, #{userLevel}, #{wxOpenId}, #{sessionKey}, sysdate(), sysdate(), 0, #{roleId})
+    </insert>
+
+    <update id="deleteById" parameterType="Integer">
+        update litmall_user set is_deleted = 1, gmt_modified = sysdate()
+        where id = #{id} and is_deleted = 0
+    </update>
+
+    <update id="updateUser" parameterType="mallUser">
+        update litmall_user set
+        <trim suffixOverrides=",">
+            gmt_modified = sysdate(),
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname},
+            </if>
+            <if test="rebate != null">
+                rebate = #{rebate},
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime},
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip = #{lastLoginIp},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId},
+            </if>
+            <if test="userLevel != null">
+                user_level = #{userLevel},
+            </if>
+            <if test="wxOpenId != null">
+                wx_open_id = #{wxOpenId},
+            </if>
+            <if test="sessionKey != null">
+                session_key = #{sessionKey},
+            </if>
+            <choose>
+                <when test="beDeleted == null"/>
+                <when test="beDeleted == true">
+                    is_deleted = 1,
+                </when>
+                <otherwise>
+                    is_deleted = 0,
+                </otherwise>
+            </choose>
+        </trim>
+        where id = #{id} and is_deleted = 0
+    </update>
+
+    <select id="findById" parameterType="Integer" resultMap="mallUserMap">
+        select id, password, name, gender, birthday, mobile, nickname, rebate, avatar, last_login_time, last_login_ip, user_level, role_id, wx_open_id, session_key, gmt_create, gmt_modified, is_deleted
+        from litmall_user
+        where id = #{id} and is_deleted = 0
+    </select>
+
+    <select id="findByCondition" resultMap="mallUserMap">
+        select id, password, name, gender, birthday, mobile, nickname, rebate, avatar, last_login_time, last_login_ip, user_level, role_id, wx_open_id, session_key, gmt_create, gmt_modified, is_deleted
+        from litmall_user
+        where is_deleted = 0
+        limit ${limit * page - limit}, ${limit * page}
+    </select>
+
+    <select id="findByName" resultMap="mallUserMap" parameterType="String">
+        select id, password, name, gender, birthday, mobile, nickname, rebate, avatar, last_login_time, last_login_ip, user_level, role_id, wx_open_id, session_key, gmt_create, gmt_modified, is_deleted
+        from litmall_user
+        where name = #{name} and is_deleted = 0
+    </select>
+
+    <select id="findByTelephone" resultMap="mallUserMap" parameterType="String">
+        select id, password, name, gender, birthday, mobile, nickname, rebate, avatar, last_login_time, last_login_ip, user_level, role_id, wx_open_id, session_key, gmt_create, gmt_modified, is_deleted
+        from litmall_user
+        where mobile = #{telephone} and is_deleted = 0
+    </select>
+
+    <select id="getAllUsers" resultMap="mallUserMap">
+        select id, password, name, gender, birthday, mobile, nickname, rebate, avatar, last_login_time, last_login_ip, user_level, role_id, wx_open_id, session_key, gmt_create, gmt_modified, is_deleted
+        from litmall_user
+        where is_deleted = 0
+    </select>
+
+    <select id="getUsersByCondition" resultMap="mallUserMap">
+        select id, password, name, gender, birthday, mobile, nickname, rebate, avatar, last_login_time, last_login_ip, user_level, role_id, wx_open_id, session_key, gmt_create, gmt_modified, is_deleted
+        from litmall_user
+        where name = #{username} and is_deleted = 0
+        limit ${limit * page - limit}, ${limit * page}
+    </select>
+</mapper>
