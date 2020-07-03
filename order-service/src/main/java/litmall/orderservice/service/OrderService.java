@@ -1,7 +1,10 @@
 package litmall.orderservice.service;
 
 
+import com.google.gson.*;
 import domain.*;
+import litmall.orderservice.BO.MyOrder;
+import litmall.orderservice.BO.MyOrderItem;
 import litmall.orderservice.controller.otherInterface.*;
 import litmall.orderservice.dao.OrderDao;
 import litmall.orderservice.util.JacksonUtil;
@@ -47,6 +50,8 @@ public class OrderService {
 
     public Object submitOrder(Order order, List<CartItem> cartItems){
 
+        MyOrder myOrder=new MyOrder(order);
+
         System.out.println(cartItems.size());
         if(this.createOrderItemByCartItem(order,cartItems)){
 
@@ -58,12 +63,12 @@ public class OrderService {
             System.out.println(order.getPaymentList().size());
 
             BigDecimal rebate=order.getRebatePrice();
-            order.setDealPriceByRebate();
+            myOrder.setDealPriceByRebate();
 
 //            order.setFreightPrice(frightController.getFright(order));
             Object object=frightController.getFright(order);
 
-            order.setPaymentList(0,order.getPaymentList().get(0).getActualPrice().add(order.getFreightPrice()));
+            myOrder.setPaymentList(0,order.getPaymentList().get(0).getActualPrice().add(order.getFreightPrice()));
 
             order=orderDao.addOrder(order);
 
@@ -82,7 +87,7 @@ public class OrderService {
         for(CartItem cartItem:cartItems) {
 
             System.out.println(cartItem);
-            OrderItem orderItem = new OrderItem(cartItem);
+            OrderItem orderItem = new MyOrderItem(cartItem).getOrderItem();
             orderItems.add(orderItem);
         }
         String state=null;
