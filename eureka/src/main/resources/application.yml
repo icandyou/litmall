@@ -1,0 +1,18 @@
+server:
+  #  注意这里的eureka注册是个模板，在搭建集群的时候会被多次复制，其中Eureka01的端口号是：8091，Eureka02的端口号是8092。注意修改
+  port: 8090
+spring:
+  application:
+    #   服务注册列表中的应用名称，会在Eureka中显示（注意中间不要以下划线连接，否则会注册错误。）
+    name: eureka-server
+eureka:
+  client:
+    #  是否注册自己的信息到EurekaServer，默认是true。搭建集群的时候需要互相注册，提高项目的高可用性。在用Dashboard模板时，重新修改配置文件部署在Tomcat相当于把原来的复制了一份
+    register-with-eureka: true
+    #  是否拉取其它服务的信息，默认是true，同上
+    fetch-registry: true
+    #  EurekaServer的地址，现在是自己的地址，如果是集群，需要加上其它Server的地址。
+    service-url:
+      #    注意搭建eureka集群的时候，要相互注册，需要修改此处配置，这里暂时不搭建集群，注册在自己的服务列表中
+      defaultZone: http://127.0.0.1:8090/eureka
+#      defaultZone: http://127.0.0.1:${server.port}/eureka    # 这个是自动获取当前端口号的注册，yml语法${}
