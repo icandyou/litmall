@@ -1,4 +1,4 @@
-package mapper;
+package litmall.orderservice.mapper;
 
 
 import domain.Order;
@@ -46,13 +46,13 @@ public interface OrderMapper {
      * 增加order
      * @param order
      */
-    void addOrder(Order order);
+    Integer addOrder(Order order);
 
     /**
      * 增加orderItem
      * @param orderItems
      */
-    void addOrderItems(List<OrderItem> orderItems);
+    Integer addOrderItems(List<OrderItem> orderItems);
 
     /**
      * 根据订单id逻辑删除订单
@@ -73,7 +73,7 @@ public interface OrderMapper {
      * @param shipSn
      * @param shipChannel
      */
-    void updateOrderByShip(@Param("orderId") Integer orderId, @Param("shipSn") String shipSn,
+    Integer updateOrderByShip(@Param("orderId") Integer orderId, @Param("shipSn") String shipSn,
                            @Param("shipChannel") String shipChannel);
 
     /**

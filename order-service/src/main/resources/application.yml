@@ -1,56 +1,28 @@
+server:
+  port: 8080
+
 spring:
-  profiles:
-    active: lhb
-  http:
-    converters:
-      preferred-json-mapper: gson
-  cloud:
-    loadbalancer:
-      retry:
-        enabled: true
+  application:
+    name: orderService
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-
-
+    url: jdbc:mysql://127.0.0.1:3306/litmall
+    username: root
+    password: 123456
 
 mybatis:
-  type-aliases-package: ooad33.order.domain
-  mapper-locations: classpath:ooad33.order.mapper/*.xml
+  type-aliases-package: domain
+  mapper-locations: classpath:mapper/OrderMapper.xml
   configuration:
     map-underscore-to-camel-case: true
 logging:
   level:
-    org.springframework.web: infoOrderMapper.xml
-    root: error
+    litmall.orderservice.controller: debug
+    litmall.orderservice.service: debug
+    litmall.orderservice.dao: debug
+    litmall.orderservice.mapper: debug
+    litmall.orderservice.domain: debug
 
-    ooad33.order.controller: debug
-    ooad33.order.service: debug
-    ooad33.order.dao: debug
-    ooad33.order.mapper: debug
-    ooad33.order.domain: debug
-
-
-
-feign:
-  hystrix:
-    enabled: false
-  client:
-    config:
-      share:
-        connectTimeout: 120000
-        readTimeout: 120000
-  compression:
-    request:
-      enabled: true
-      mime-types: textml,application/xml,application/json
-      min-request-size: 2048
-    response:
-      enabled: true
-#
-#…Ë÷√»€∂œ «Œ™6√Î
-ribbon:
-  ConnectTimeout: 60000
-  ReadTimeout: 60000
-  eureka:
-    enabled: true
 
 

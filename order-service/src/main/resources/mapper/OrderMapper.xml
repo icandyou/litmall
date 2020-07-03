@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ooad33.order.mapper.OrderMapper">
+<mapper namespace="litmall.orderservice.mapper.OrderMapper">
 <!--    <resultMap id="orderMap" type="order" autoMapping="true">-->
 <!--        <id property="id" column="id"></id>-->
 <!--        <collection property="items" select="findOrderItemsByOrderId" ofType="orderItem" javaType="java.util.List" column="id"/>-->
@@ -8,12 +8,12 @@
 
     <select id="findOrderItemsByOrderId" parameterType="Integer" resultType="orderItem">
         select id, order_id, item_type, status as statusCode, number, price, deal_price, product_id
-        from oomall_order_item where order_id=#{id} and is_deleted=false
+        from litmall_order_item where order_id=#{id} and is_deleted=false
     </select>
 
     <select id="findOrdersByUserId" resultType="order">
         select id, user_id, order_sn, status as statusCode, consignee, mobile, message, goods_price, freight_price, coupon_price, rebate_price, integral_price, ship_sn, ship_channel, ship_time as shipTime, confirm_time, end_time, pay_time, parent_id, address
-        from oomall_order where user_id=#{userId} and is_deleted=false and status=#{showType}
+        from litmall_order where user_id=#{userId} and is_deleted=false and status=#{showType}
         order by gmt_create
     </select>
 
@@ -21,43 +21,43 @@
     <select id="findOrderById" parameterType="Integer" resultType="order">
         select
         id, user_id, order_sn, status as statusCode, consignee, mobile, message, goods_price as goodPrice, freight_price as freightPrice, coupon_price, rebate_price, integral_price, ship_sn, ship_channel, ship_time, confirm_time, end_time, pay_time, parent_id, address,  is_deleted as beDeleted
-        from  oomall_order where id=#{id} and is_deleted=false
+        from  litmall_order where id=#{id} and is_deleted=false
     </select>
 
     <insert id="addOrder" parameterType="order" useGeneratedKeys="true" keyProperty="id">
-        insert into oomall_order(user_id,be_shared_item_ids,order_sn,status,consignee,mobile,message,goods_price,freight_price,coupon_price,rebate_price,integral_price,ship_sn,ship_channel,ship_time,confirm_time,end_time,pay_time,parent_id,address,gmt_create,gmt_modified,is_deleted)
-        values (#{userId},#{beSharedItemIds},#{orderSn},#{statusCode},#{consignee},#{mobile},#{message},#{goodPrice},#{freightPrice},#{couponPrice},#{rebatePrice},#{integralPrice},#{shipSn},#{shipChannel},#{shipTime},#{confirmTime},#{endTime},#{payTime},#{parentId},#{address},#{gmtCreate},#{gmtModified},#{beDeleted})
+        insert into litmall_order(user_id,order_sn,status,consignee,mobile,message,goods_price,freight_price,coupon_price,rebate_price,integral_price,ship_sn,ship_channel,ship_time,confirm_time,end_time,pay_time,parent_id,address,gmt_create,gmt_modified,is_deleted)
+        values (#{userId},#{orderSn},#{statusCode},#{consignee},#{mobile},#{message},#{goodsPrice},#{freightPrice},#{couponPrice},#{rebatePrice},#{integralPrice},#{shipSn},#{shipChannel},#{shipTime},#{confirmTime},#{endTime},#{payTime},#{parentId},#{address},#{gmtCreate},#{gmtModified},#{beDeleted})
     </insert>
 
 
 
 
     <insert id="addOrderItems" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
-        insert into oomall_order_item(order_id,item_type,item_status,number,price,deal_price,product_id,gmt_create,is_deleted)
+        insert into litmall_order_item(order_id,item_type,status,number,price,deal_price,product_id,gmt_create,is_deleted)
         values
         <foreach collection="list"  item="item" separator=",">
             (#{item.orderId},#{item.itemType},#{item.statusCode},#{item.number},#{item.price},#{item.dealPrice},
-            #{item.productId},#{item.gmtCreate},#{item.beDelete})
+            #{item.productId},#{item.gmtCreate},#{item.beDeleted})
         </foreach>
     </insert>
 
     <update id="deleteOrderById" parameterType="Integer" keyProperty="id">
-        update oomall_order set IS_DELETED=true where id=#{id}
+        update litmall_order set IS_DELETED=true where id=#{id}
     </update>
 
     <update id="deleteOrderItemByOrderId" parameterType="Integer" keyProperty="id">
-        update oomall_order_item set is_deleted=true where order_id=#{id}
+        update litmall_order_item set is_deleted=true where order_id=#{id}
     </update>
 
     <update id="updateOrderByShip" keyProperty="id">
-        update oomall_order set ship_sn=#{shipSn},ship_channel=#{shipChannel},status=3 where id=#{orderId}
+        update litmall_order set ship_sn=#{shipSn},ship_channel=#{shipChannel},status=3 where id=#{orderId}
     </update>
 
 
 
 
     <update id="updateOrder" parameterType="order" >
-        update oomall_order
+        update litmall_order
         <trim   prefix="set" suffixOverrides=",">
             <if test="userId!=null">user_id=#{userId},</if>
             <if test="orderSn!=null">order_sn=#{orderSn},</if>
@@ -87,7 +87,7 @@
 
 
     <update id="updateOrderItem" parameterType="orderItem">
-        update oomall.oomall_order_item
+        update litmall.litmall_order_item
         <trim   prefix="set" suffixOverrides=",">
             <if test="orderId!=null">order_id=#{orderId},</if>
             <if test="orderId!=null">item_type=#{itemType},</if>
@@ -106,17 +106,17 @@
 
     <select id="shareIdSevenDayAgo" resultType="order">
         select id, user_id, order_sn, status, consignee, mobile, message, goods_price, freight_price, coupon_price, rebate_price, integral_price, ship_sn, ship_channel, ship_time, confirm_time, end_time, pay_time, parent_id, address, gmt_create, gmt_modified, is_deleted
-        from oomall_order where DATEDIFF(confirm_time,NOW())=-3
+        from litmall_order where DATEDIFF(confirm_time,NOW())=-3
     </select>
 
     <select id="findOrderByRule" resultType="orderItem">
         select id, order_id, item_type, status, number, price, deal_price, product_id,  is_deleted, goods_id, pic_url, name_with_specifications
-        from oomall_order_item where goods_id=#{goodsId} and item_type=#{type} and gmt_create between #{begin } and #{end }
+        from litmall_order_item where goods_id=#{goodsId} and item_type=#{type} and gmt_create between #{begin } and #{end }
     </select>
 
     <select id="findOrderItemsById" parameterType="Integer" resultType="orderItem">
         select id, order_id, item_type, status, number, price, deal_price, product_id, gmt_create, gmt_modified, is_deleted, goods_id, pic_url, name_with_specifications
-        from oomall_order_item where id=#{id}
+        from litmall_order_item where id=#{id}
     </select>
 
 </mapper>
