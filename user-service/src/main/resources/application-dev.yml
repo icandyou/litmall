@@ -42,7 +42,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://liznsalt:123456@101.132.152.28:9000/eureka/
+      defaultZone: http://localhost:9000/eureka/
 
 # 接下来都是zuul，其它配置请放上面
 zuul:
