@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.PaymentMapper">
+<resultMap id="BaseResultMap" type="com.example.demo.domain.Payment">
+<!--    <id column="id" property="id" jdbcType="BIGINT" />-->
+<!--    <result column="actual_price" property="actualPrice" jdbcType="DECIMAL"/>-->
+<!--    <result column="pay_channel" property="payChannel" jdbcType="TINYINT"/>-->
+<!--    <result column="is_successful" property="beSuccessful" jdbcType="TINYINT"/>-->
+<!--    <result column="pay_time" property="payTime"   jdbcType="DATETIME"/>-->
+<!--    <result column="pay_sn" property="paySn" jdbcType="VARCHAR"/>-->
+<!--    <result column="begin_time" property="beginTime" jdbcType="DATETIME"/>-->
+<!--    <result column="end_time" property="endTime" jdbcType="DATETIME"/>-->
+<!--    <result column="order_id" property="orderId" jdbcType="BIGINT"/>-->
+<!--    <result column="is_deleted" property="beDeleted" jdbcType="TINYINT"/>-->
+<!--    <result column="gmt_create" property="gmtCreate" jdbcType="DATETIME"/>-->
+<!--    <result column="gmt_modified" property="gmtModified" jdbcType="DATETIME"/>-->
+</resultMap>
+    <insert id="Create" parameterType="com.example.demo.domain.Payment">
+        INSERT INTO payment (actual_price, pay_channel, pay_time, pay_sn, begin_time, end_time, order_id, gmt_create, gmt_modified)
+        VALUES (#{actualPrice},#{payChannel},#{payTime},#{paySn},#{beginTime},#{endTime},#{orderId},#{gmtCreate},#{gmtModified})
+    </insert>
+
+
+    <update id="put" parameterType="com.example.demo.domain.Payment">
+        UPDATE payment
+        set gmt_modified=#{gmtModified},
+            is_successful=#{beSuccessful},
+            pay_time=#{payTime}
+        where pay_sn=#{paySn}
+    </update>
+
+
+
+</mapper>
+
+
